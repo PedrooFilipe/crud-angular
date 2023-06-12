@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { CoursesService } from '../../services/courses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { Course } from '../../model/course';
 
 @Component({
   selector: 'app-course-form',
@@ -11,13 +13,16 @@ import { Location } from '@angular/common';
 })
 export class CourseFormComponent {
 
+  id: number = 0;
+  course!: Course;
   form: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private service: CoursesService,
     private _snackBar: MatSnackBar,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute
     )
     {
       this.form = formBuilder.group({
@@ -26,8 +31,22 @@ export class CourseFormComponent {
       })
     }
 
-    openSnackBar(message: string){
-      this._snackBar.open(message, 'Ok', {duration: 4000});
+    ngOnInit() {
+      this.route.paramMap.subscribe(params => {
+        
+        let id = params.get('id');
+
+        if(id){
+          this.service.loadById(parseInt(id))
+          .subscribe(
+            {
+                next: (course) => {
+                  this.form = this.formBuilder.group({name: course.name, category: course.category})
+                },
+                error: (erro) => {console.log(erro)}
+            })
+        }
+      });
     }
 
     handleSubmit() {
@@ -39,6 +58,9 @@ export class CourseFormComponent {
         })
     }
 
+    openSnackBar(message: string){
+      this._snackBar.open(message, 'Ok', {duration: 4000});
+    }
 
     private handleSuccess() {
       this.openSnackBar('Curso salvo com sucesso');

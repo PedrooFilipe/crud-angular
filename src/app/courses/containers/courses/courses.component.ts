@@ -42,8 +42,8 @@ export class CoursesComponent {
     console.log('Cadastrar');
   }
 
-  handleEdit(){
-    console.log('Edit');
+  handleEdit(course: Course){
+    this.router.navigate(['edit', course.id], {relativeTo: this.route})
   }
 
   handleRemove(){

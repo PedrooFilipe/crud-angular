@@ -8,6 +8,7 @@
             *ngIf="courses$ | async as courses; else loading"
             [courses]="courses"
             (add)="handleAdd()"
+            (edit)="handleEdit($event)"
           >
           </app-course-list>
     </mat-card-content>

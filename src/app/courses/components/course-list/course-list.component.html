@@ -21,14 +21,11 @@
       </mat-header-cell>
 
       <mat-cell *matCellDef="let course">
-        
-        <!-- <button (click)="handleEdit()" mat-icon-button color="primary" aria-label="Editar Curso"> -->
-        <button mat-icon-button color="primary" aria-label="Editar Curso">
+        <button color="primary" aria-label="Editar Curso" (click)="onEdit(course)" >
           <mat-icon>edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="warn" aria-label="Remover Curso">
-        <!-- <button (click)="handleRemove()" mat-icon-button color="warn" aria-label="Remover Curso"> -->
+        <button mat-icon-button color="warn" aria-label="Remover Curso" *matCellDef="let course">
           <mat-icon>remove</mat-icon>
         </button>
 
